@@ -4,11 +4,19 @@
 
     class SingleProject extends Component {
       constructor (props) {
+        this.handleMarkProjectAsCompleted = this.handleMarkProjectAsCompleted.bind(this)
         super(props)
         this.state = {
           project: {},
           tasks: []
         }
+      }
+
+      handleMarkProjectAsCompleted () {
+        const { history } = this.props
+  
+        axios.put(`/api/projects/${this.state.project.id}`)
+          .then(response => history.push('/'))
       }
 
       componentDidMount () {
