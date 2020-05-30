@@ -69913,7 +69913,7 @@ var Header = function Header() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     className: "navbar-brand",
     to: "/"
-  }, "Simple Task Manager")));
+  }, "Tasksman")));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Header);
@@ -70230,24 +70230,32 @@ var SingleProject = /*#__PURE__*/function (_Component) {
 
     _classCallCheck(this, SingleProject);
 
+    _this = _super.call(this, props);
+    _this.state = {
+      project: {},
+      tasks: [],
+      title: '',
+      errors: []
+    };
     _this.handleFieldChange = _this.handleFieldChange.bind(_assertThisInitialized(_this));
     _this.handleAddNewTask = _this.handleAddNewTask.bind(_assertThisInitialized(_this));
     _this.hasErrorFor = _this.hasErrorFor.bind(_assertThisInitialized(_this));
     _this.renderErrorFor = _this.renderErrorFor.bind(_assertThisInitialized(_this));
-    _this = _super.call(this, props);
-    _this.state = {
-      project: {},
-      tasks: []
-    };
+    _this.handleMarkProjectAsCompleted = _this.handleMarkProjectAsCompleted.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(SingleProject, [{
-    key: "handleMarkProjectAsCompleted",
-    value: function handleMarkProjectAsCompleted() {
-      var history = this.props.history;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/projects/".concat(this.state.project.id)).then(function (response) {
-        return history.push("/");
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var projectId = this.props.match.params.id;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/projects/".concat(projectId)).then(function (response) {
+        _this2.setState({
+          project: response.data,
+          tasks: response.data.tasks
+        });
       });
     }
   }, {
@@ -70260,27 +70268,27 @@ var SingleProject = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleAddNewTask",
     value: function handleAddNewTask(event) {
-      var _this2 = this;
+      var _this3 = this;
 
       event.preventDefault();
       var task = {
         title: this.state.title,
         project_id: this.state.project.id
       };
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/tasks", task).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/tasks', task).then(function (response) {
         // clear form input
-        _this2.setState({
-          title: ""
+        _this3.setState({
+          title: ''
         }); // add new task to list of tasks
 
 
-        _this2.setState(function (prevState) {
+        _this3.setState(function (prevState) {
           return {
             tasks: prevState.tasks.concat(response.data)
           };
         });
       })["catch"](function (error) {
-        _this2.setState({
+        _this3.setState({
           errors: error.response.data.errors
         });
       });
@@ -70300,12 +70308,20 @@ var SingleProject = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
+    key: "handleMarkProjectAsCompleted",
+    value: function handleMarkProjectAsCompleted() {
+      var history = this.props.history;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/projects/".concat(this.state.project.id)).then(function (response) {
+        return history.push('/');
+      });
+    }
+  }, {
     key: "handleMarkTaskAsCompleted",
     value: function handleMarkTaskAsCompleted(taskId) {
-      var _this3 = this;
+      var _this4 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/tasks/".concat(taskId)).then(function (response) {
-        _this3.setState(function (prevState) {
+        _this4.setState(function (prevState) {
           return {
             tasks: prevState.tasks.filter(function (task) {
               return task.id !== taskId;
@@ -70315,21 +70331,10 @@ var SingleProject = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this4 = this;
-
-      var projectId = this.props.match.params.id;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/projects/".concat(projectId)).then(function (response) {
-        _this4.setState({
-          project: response.data,
-          tasks: response.data.tasks
-        });
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
+      var _this5 = this;
+
       var _this$state = this.state,
           project = _this$state.project,
           tasks = _this$state.tasks;
@@ -70347,7 +70352,7 @@ var SingleProject = /*#__PURE__*/function (_Component) {
         className: "card-body"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, project.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
-        onClick: this.handleMarkTaskAsCompleted.bind(this, task.id)
+        onClick: this.handleMarkProjectAsCompleted
       }, "Mark as completed"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
         onSubmit: this.handleAddNewTask
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -70355,7 +70360,7 @@ var SingleProject = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "text",
         name: "title",
-        className: "form-control ".concat(this.hasErrorFor("title") ? "is-invalid" : ""),
+        className: "form-control ".concat(this.hasErrorFor('title') ? 'is-invalid' : ''),
         placeholder: "Task title",
         value: this.state.title,
         onChange: this.handleFieldChange
@@ -70363,14 +70368,15 @@ var SingleProject = /*#__PURE__*/function (_Component) {
         className: "input-group-append"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
         className: "btn btn-primary"
-      }, "Add")), this.renderErrorFor("title"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
+      }, "Add")), this.renderErrorFor('title'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
         className: "list-group mt-3"
       }, tasks.map(function (task) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
           className: "list-group-item d-flex justify-content-between align-items-center",
           key: task.id
         }, task.title, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
-          className: "btn btn-primary btn-sm"
+          className: "btn btn-primary btn-sm",
+          onClick: _this5.handleMarkTaskAsCompleted.bind(_this5, task.id)
         }, "Mark as completed"));
       })))))));
     }
