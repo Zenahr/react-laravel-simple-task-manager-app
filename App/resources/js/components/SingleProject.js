@@ -3,9 +3,10 @@ import React, { Component } from "react";
 
 class SingleProject extends Component {
     constructor(props) {
-        this.handleMarkProjectAsCompleted = this.handleMarkProjectAsCompleted.bind(
-            this
-        );
+    this.handleFieldChange = this.handleFieldChange.bind(this)
+    this.handleAddNewTask = this.handleAddNewTask.bind(this)
+    this.hasErrorFor = this.hasErrorFor.bind(this)
+    this.renderErrorFor = this.renderErrorFor.bind(this)
         super(props);
         this.state = {
             project: {},
@@ -20,6 +21,52 @@ class SingleProject extends Component {
             .put(`/api/projects/${this.state.project.id}`)
             .then(response => history.push("/"));
     }
+
+    handleFieldChange (event) {
+        this.setState({
+          title: event.target.value
+        })
+      }
+  
+      handleAddNewTask (event) {
+        event.preventDefault()
+  
+        const task = {
+          title: this.state.title,
+          project_id: this.state.project.id
+        }
+  
+        axios.post('/api/tasks', task)
+          .then(response => {
+            // clear form input
+            this.setState({
+              title: ''
+            })
+            // add new task to list of tasks
+            this.setState(prevState => ({
+              tasks: prevState.tasks.concat(response.data)
+            }))
+          })
+          .catch(error => {
+            this.setState({
+              errors: error.response.data.errors
+            })
+          })
+      }
+  
+      hasErrorFor (field) {
+        return !!this.state.errors[field]
+      }
+  
+      renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
+          return (
+            <span className='invalid-feedback'>
+              <strong>{this.state.errors[field][0]}</strong>
+            </span>
+          )
+        }
+      }
 
     componentDidMount() {
         const projectId = this.props.match.params.id;
