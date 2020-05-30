@@ -103,12 +103,11 @@ class SingleProject extends Component {
                                 <p>{project.description}</p>
 
                                 <button
-                                    className="btn btn-primary btn-sm"
-                                    onClick={this.handleMarkProjectAsCompleted}
-                                >
-                                    Mark as completed
-                                </button>
-
+      className='btn btn-primary btn-sm'
+      onClick={this.handleMarkTaskAsCompleted.bind(this,task.id)}
+    >
+      Mark as completed
+    </button>
                                 <hr />
 
                                 <form onSubmit={this.handleAddNewTask}>
