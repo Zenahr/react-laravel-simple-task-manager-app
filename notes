@@ -1,3 +1,6 @@
+Run this command to compile and serve the app locally:
+npm run dev && php artisan serve
+
 Our task management app, will consist of two main components: tasks and projects. Let’s break each of these component down.
 
     Tasks: a task is an item that needs to be done by a user and usually consists of a brief and concise title of what needs to be done to complete that task. Tasks also need to indicate whether they have been completed or not. Finally, a task is usually associated with a project that contains similar or related tasks.
