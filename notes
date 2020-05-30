@@ -1,0 +1,9 @@
+Our task management app, will consist of two main components: tasks and projects. Let’s break each of these component down.
+
+    Tasks: a task is an item that needs to be done by a user and usually consists of a brief and concise title of what needs to be done to complete that task. Tasks also need to indicate whether they have been completed or not. Finally, a task is usually associated with a project that contains similar or related tasks.
+    Projects: projects group related tasks together and usually have a descriptive name, and a description associated with them. We also need to be able to indicate whether or not a project is completed.
+
+
+DB stuff:
+tasks 	id, title, project_id, is_completed, created_at, updated_at
+projects 	id, name, description, is_completed, created_at, updated_at
