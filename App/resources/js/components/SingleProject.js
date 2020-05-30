@@ -69,6 +69,16 @@ class SingleProject extends Component {
         }
     }
 
+    handleMarkTaskAsCompleted (taskId) {
+        axios.put(`/api/tasks/${taskId}`).then(response => {
+          this.setState(prevState => ({
+            tasks: prevState.tasks.filter(task => {
+              return task.id !== taskId
+            })
+          }))
+        })
+      }
+
     componentDidMount() {
         const projectId = this.props.match.params.id;
 
