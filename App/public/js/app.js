@@ -70360,7 +70360,7 @@ var SingleProject = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "text",
         name: "title",
-        className: "form-control ".concat(this.hasErrorFor('title') ? 'is-invalid' : ''),
+        className: "form-control}",
         placeholder: "Task title",
         value: this.state.title,
         onChange: this.handleFieldChange
@@ -70368,7 +70368,7 @@ var SingleProject = /*#__PURE__*/function (_Component) {
         className: "input-group-append"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
         className: "btn btn-primary"
-      }, "Add")), this.renderErrorFor('title'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
+      }, "Add")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
         className: "list-group mt-3"
       }, tasks.map(function (task) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {

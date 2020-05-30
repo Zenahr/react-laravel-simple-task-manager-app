@@ -125,7 +125,7 @@ class SingleProject extends Component {
                     <input
                       type='text'
                       name='title'
-                      className={`form-control ${this.hasErrorFor('title') ? 'is-invalid' : ''}`}
+                      className={`form-control ${this.hasErrorFor('title') ? 'is-invalid' : ''}`} // This is resulting in an error. Cannot find 'title'
                       placeholder='Task title'
                       value={this.state.title}
                       onChange={this.handleFieldChange}
